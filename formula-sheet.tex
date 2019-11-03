@@ -13,8 +13,11 @@
 \usepackage[landscape,letterpaper]{geometry}
 \usepackage{titlesec}
 \usepackage{amsmath,amsthm,amsfonts,amssymb,gensymb}
-\usepackage{graphicx,overpic}
+\usepackage{graphicx,overpic,wrapfig}
 \usepackage[dvipsnames]{xcolor}
+
+\usepackage{fontspec}
+\usepackage{newtxtext, newtxmath}
 
 \usepackage[pdfauthor={Johann M. Barnard},
             pdftitle={Mec E 230 Formula Sheet},
@@ -22,6 +25,8 @@
             pdfkeywords={LaTeX, XeLaTeX, Mec E 230, Formula Sheet},
             pdfproducer={XeLaTeX with hyperref}
             pdfcreator={XeLaTeX}]{hyperref}
+
+\graphicspath{{./}}
 
 % This sets page margins to .5 inch if using letter paper, and to 1cm
 % if using A4 paper. (This probably isn't strictly necessary.)
@@ -55,12 +60,17 @@
 \titlespacing*{\section}{0pt}{0.5ex}{0.25ex}
 \titlespacing*{\subsection}{0pt}{0.5cm}{0.25cm}
 
+% Figure fix. See https://tex.stackexchange.com/a/12289
+\newenvironment{Figure}
+    {\par\medskip\noindent\minipage{\linewidth}}
+    {\endminipage\par\medskip}
+
 % Define BibTeX command
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
   T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 % Define shortcut for formatting equation labels:
-\definecolor{FSheetLabelColor}{RGB}{44, 130, 90}
+\definecolor{FSheetLabelColor}{RGB}{36, 135, 189}
 \newcommand{\fsheetlabel}[1]{\textcolor{FSheetLabelColor}{\textbf{\textit{#1}}}}
 
 % Don't print section numbers
@@ -164,6 +174,22 @@
     
     %--------------------------------------
     \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Random notes}
+        
+        \fsheetlabel{3 (+ 1?) types of piston problems:}
+        
+        \begin{enumerate}
+            \item \textbf{Isothermal}: $T$ is constant, $p$ varies. So replace $p$ with something like $\frac{p_1 V_1}{V}$ in your $W_B$ integral.
+            \item \textbf{Isobaric}: $T$ varies, $p$ is constant.
+            \item \textbf{Nothing constant, but adiabatic}: Remeber that $pV^n = constant$, where $n$ is given to you. Should be able to derive something like $W = \frac{m c_v}{R}(p_1 V_1 - p_2 V_2)$.
+            \item \textbf{Isotropic}: Same as Isothermal, but replace $p$ with something like $\frac{p_1 V_1^n}{V^n}$ instead.
+        \end{enumerate}
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
         \subsection{Heat transfer}
         
         \fsheetlabel{Conduction (Fourier's law (1D)):} $\dot{Q}_{cond} = -kA\frac{dT}{dx}$
@@ -176,6 +202,88 @@
         Series: $R_{eff}=R_1+R_2$; Parallel: $\frac{1}{R_{eff}} = \frac{1}{R_1} + \frac{1}{R_2}.$
         
         \fsheetlabel{Convective resistance:} $R_{conv} = \frac{1}{hA}$
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Lumped-system approximation}
+        
+        \fsheetlabel{Valid if} $Bi<0.1$, where $Bi=\frac{L_s h_f}{k_s}$ and $L_s = \frac{V}{A}$.
+        
+        \fsheetlabel{Then}, $$\frac{T(t) - T_f}{T(0) - T_f} = e^{-\frac{h}{\rho c_v L_s}t},$$ $$t = -\frac{\rho c_v L_s}{h} \ln{\left(\frac{T(t) - T_f}{T(0) - T_f)}\right)},$$ and $$T(t) = T_f + \left(T(0) - T_f\right) e^{-\frac{h}{\rho c_v L_s}t}$$
+        
+        Note that the fraction $\frac{h}{\rho c_v L_s}$ is sometimes called the \textbf{time constant of cooling / heating}.
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Fluid mechanics}
+        
+        \fsheetlabel{General shear stress:} $\tau = \tau_0 + \mu (\frac{dv}{dy})^n$, where $\mu$ is \textbf{dynamic viscosity} and $\nu = \frac{\mu}{\rho}$ is \textbf{kinematic viscosity}.
+        
+        \fsheetlabel{Fluid types:}
+        
+        \begin{itemize}
+            \item \textbf{Newtonian}: $\tau_0 = 0$, $n = 1$; Most fluids, linear relationship between shear stress and strain.
+            
+            \item \textbf{Bingham plastic}: $\tau_0 \neq 0$, $n = 1$; Requires some force to start flow, e.g. ketchup, toothpaste.
+            
+            \item \textbf{Shear-thinning}: $\tau_0 = 0$, $n > 1$; Can accelerate without effort when shear reaches critical value, e.g. blood.
+            
+            \item \textbf{Shear-thickening}: $\tau_0 = 0$, $n < 1$; Liquid under slow \& steady force, solid under sudden force, e.g. cornstarch in water.
+        \end{itemize}
+    
+        \fsheetlabel{Density:} $\rho=\frac{m}{V}$. \fsheetlabel{Specific volume:} $\nu=\frac{1}{\rho}$. 
+        
+        \fsheetlabel{Specific gravity:} $SG = \frac{\rho_{thing}}{\rho_{H_2 O, 4\degree C}}$
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Static pressure}
+        
+        \fsheetlabel{Pascal's Law:} All points in a resting fluid medium are at the same pressure if they're at the same depth.
+        
+        \fsheetlabel{Base equation:} $p = p_0 - \rho g z$ if $z$ is positive in dir. opposite to gravity.
+        
+        \fsheetlabel{Submerged flat angled body:}
+        
+        \begin{Figure}
+            \includegraphics[width=0.33\textwidth]{Angled_Flat_Submerged_Surface_Pressure}
+            \centering
+        \end{Figure}
+        
+        Resultant force: $F_R = p_0 A + \rho g \sin{\theta} \,y_C A$
+        
+        Force is located at $y_Q = y_C + \frac{I_{xx,C}}{\frac{p_0 A}{\rho g \sin{\theta}} + y_C A}$
+        
+        For a rectangle with size $a$ in $x$-dir and $b$ in $y$-dir, $y_C = b/2$ and $I_{xx,C} = a b^3 / 12$.
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Surface tension}
+        
+        \fsheetlabel{Energy to create interface:} $\delta W = \gamma \,dA$ where $\gamma$ is surface tension $\left[\text{J}/\text{m}^2\text{ or }\text{N}/\text{m}\right]$.
+        
+        \fsheetlabel{Droplets on surfaces:} \textbf{hydrophilic} if $\theta < 90\degree$, \textbf{hydrophobic} if $\theta > 90\degree$.
+        
+        \fsheetlabel{Spreading coefficient:} $S = \gamma_{SG} - \left(\gamma_{SL} + \gamma_{LG}\right)$. $S>0$ $\Rightarrow$ film forms $\Rightarrow$ complete wetting. $S<0$ $\Rightarrow$ partial wetting $\Rightarrow$ drops.
+        
+        \fsheetlabel{Young-Laplace equation (droplet/bubble):} $p_{in} - p_{out} = 2\frac{\gamma}{R}$ where $R$ is radius of curvature.
+        
+        \fsheetlabel{Young-Laplace equation (capillary):} $p_{g} - p_{l} = \frac{2\gamma\cos{\left(\theta\right)}}{r}$, where $r$ is radius of capillary.
+        
+        $p_g - p_l > 0$ $\Rightarrow$ $\theta < 90\degree$ $\Rightarrow$ CDN meniscus above water level.
+        $p_g - p_l < 0$ $\Rightarrow$ $\theta > 90\degree$ $\Rightarrow$ CUP meniscus below water level.
     \end{minipage}
     \vspace{2ex plus .5ex minus .5ex}
     %--------------------------------------
@@ -227,25 +335,10 @@
                     &= 10.73 \,\text{psia} \cdot \text{ft}^3 / (\text{lbmol} \cdot \text{R})
         \end{align*}
         \vspace{-0.5cm}
+        
+        \fsheetlabel{Water density at $4\degree\text{C}$:} $\rho_{H_2 O, 4\degree C} = 1000 \,\text{kg}/\text{m}^3$
     \end{minipage}
     \vspace{2ex plus .5ex minus .5ex}
-    %--------------------------------------
-    
-    %--------------------------------------
-    \begin{minipage}{\columnwidth}\raggedright
-        \subsection{Random notes}
-        
-        \fsheetlabel{3 (+ 1?) types of piston problems:}
-        
-        \begin{enumerate}
-            \item \textbf{Isothermal}: $T$ is constant, $p$ varies. So replace $p$ with something like $\frac{p_1 V_1}{V}$ in your $W_B$ integral.
-            \item \textbf{Isobaric}: $T$ varies, $p$ is constant.
-            \item \textbf{Nothing constant, but adiabatic}: Remeber that $pV^n = constant$, where $n$ is given to you. Should be able to derive something like $W = \frac{m c_v}{R}(p_1 V_1 - p_2 V_2)$.
-            \item \textbf{Isotropic}: Same as Isothermal, but replace $p$ with something like $\frac{p_1 V_1^n}{V^n}$ instead.
-        \end{enumerate}
-    
-        \fsheetlabel{Be calm. Take your time. If you get stuck for more than ten seconds, move on and come back to it. Enjoy! 😁}
-    \end{minipage}
     %--------------------------------------
     
     % You can even have references
