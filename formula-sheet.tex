@@ -1,0 +1,257 @@
+\documentclass[10pt,landscape,letterpaper]{article}
+
+%
+% formula-sheet.tex
+%
+% My formula sheet for use during Mec E 230 (Thermofluids
+% Formula sheet based off of this template:
+
+
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape,letterpaper]{geometry}
+\usepackage{titlesec}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,gensymb}
+\usepackage{graphicx,overpic}
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage[pdfauthor={Johann M. Barnard},
+            pdftitle={Mec E 230 Formula Sheet},
+            pdfsubject={Mec E 230},
+            pdfkeywords={LaTeX, XeLaTeX, Mec E 230, Formula Sheet},
+            pdfproducer={XeLaTeX with hyperref}
+            pdfcreator={XeLaTeX}]{hyperref}
+
+% This sets page margins to .5 inch if using letter paper, and to 1cm
+% if using A4 paper. (This probably isn't strictly necessary.)
+% If using another size paper, use default 1cm margins.
+\ifthenelse{ \lengthtest { \paperwidth = 11in}}
+    {\geometry{top=.5in,left=.5in,right=.5in,bottom=.5in}}
+    {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm}}
+        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm}}
+    }
+
+% Turn off header & footer
+\pagestyle{empty}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+\titlespacing*{\section}{0pt}{0.5ex}{0.25ex}
+\titlespacing*{\subsection}{0pt}{0.5cm}{0.25cm}
+
+% Define BibTeX command
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+  T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% Define shortcut for formatting equation labels:
+\definecolor{FSheetLabelColor}{RGB}{44, 130, 90}
+\newcommand{\fsheetlabel}[1]{\textcolor{FSheetLabelColor}{\textbf{\textit{#1}}}}
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+%My Environments
+\newtheorem{example}[section]{Example}
+% -----------------------------------------------------------------------
+
+\begin{document}
+    \raggedright
+    \footnotesize
+    \begin{multicols*}{3}
+    
+    
+    % multicol parameters
+    % These lengths are set only within the two main columns
+    % \setlength{\columnseprule}{0.25pt}
+    \setlength{\premulticols}{1pt}
+    \setlength{\postmulticols}{1pt}
+    \setlength{\multicolsep}{1pt}
+    \setlength{\columnsep}{2pt}
+    
+    \begin{center}
+        \Large{\underline{Mec E 230 Formula Sheet}} \\
+    \end{center}
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Generalized CV-CS Analysis}
+        
+        \fsheetlabel{Conservation of mass:} $\frac{dm_{CV}}{dt} = \dot{m}_{in} - \dot{m}_{out}$
+        
+        \fsheetlabel{Conservation of energy:} $$\frac{dE_{CV}}{dt} = (\dot{E}_{in} - \dot{E}_{out}) + (\dot{W}_{in} - \dot{W}_{out}) + \dot{Q} - \dot{W}\text{,}$$ where for \textbf{Closed system} $\Rightarrow$ no mass in/out of system, \textbf{steady-state system} $\Rightarrow$ no $\Delta$ w/ time, \textbf{adiabatic system} $\Rightarrow$ no addition/removal of heat.
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Work}
+        
+        \fsheetlabel{General:} $W = \int F \,dx$
+        
+        \fsheetlabel{Translational:} $W_{M,T} = \int_{s_1}^{s_2} F\,ds$ and $\dot{W}_{M,T} = Fv$. \\*
+        $F$, $s$, and $v$ are in the same direction.
+        
+        \fsheetlabel{Rotational:} $W_{M,R} = \int_{\theta_1}^{\theta_2} T\,d\theta$ and $\dot{W}_{M,R} = T\omega$.
+        
+        \fsheetlabel{Electrical:} $W_E = \int_{t_1}^{t_2} \xi I \,dt$ and $\dot{W}_E = \xi I$.
+        
+        \fsheetlabel{Boundary:} $W_B = \int_{V_1}^{V_2} p\,dV$.
+        
+        \fsheetlabel{Flow:} $\dot{W}_F = \dot{m}w_F$, where $w_F = p \nu = \frac{p}{\rho}$
+        
+        \subsubsection{Change in the energy in a system}
+        
+        \begin{equation*}
+            \Delta E_{CV} = \Delta KE + \Delta PE + \Delta U_T + \Delta U_L + \Delta U_C + \Delta U_N
+        \end{equation*}
+        
+        where:
+        
+        \begin{itemize}
+            \item $\Delta KE = \frac{1}{2}\left(m\left(v_2^2 - v_1^2) + I_G(\omega_2^2 + \omega_1^2\right)\right)$
+            
+            \item $\Delta PE = mg(h_2 - h_1)$
+            
+            \item $\Delta U_T = m \int_{T_1}^{T_2} c_v(T) \,dT$ where if ${c_v}$ is constant we write $\Delta U_T = mc_v(T_2-T_1)$
+            
+            \item $\Delta U_L = mu_L$ where $u_L$ is the specific latent heat of phase change.
+        \end{itemize}
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Random heat/pressure-related things}
+        
+        \fsheetlabel{Adiabatic, quasi-equilibrium, ideal gas, const. $c_{v}$:} $\frac{T_2}{T_1} = \left(\frac{V_1}{V_2}\right)^{k-1}$; $\frac{p_2}{p_1} = \left(\frac{V_1}{V_2}\right)^{k-1}$, where $k$ is a constant from table A-8 or table B-8.
+        
+        \fsheetlabel{Pressure:} $p=\frac{1}{3} m_p \hat{n} \left\langle v^2 \right\rangle$ where $m_p$ is the mass of the particle, $\hat{n}$ is the number of particles per unit volume, and $v$ is the particle's velocity.
+        
+        Also, \fsheetlabel{pressure:} $p=\frac{F}{A}$.
+        
+        \fsheetlabel{Ideal Gas Law:} $pV=n\bar{R}T$
+        
+        \fsheetlabel{Moles $\Leftrightarrow$ Mass:} $m = nM$
+        
+        \fsheetlabel{Specific volume:} $\nu = \frac{1}{\rho} = \frac{V}{m}$
+        
+        \fsheetlabel{Isothermal:} $V_1 p_1 = V_2 p_2$ since $nRT$ is constant.
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Heat transfer}
+        
+        \fsheetlabel{Conduction (Fourier's law (1D)):} $\dot{Q}_{cond} = -kA\frac{dT}{dx}$
+        
+        Then, if $k$ and $A$ are constant with $x$: $\left|\dot{Q}_{cond}\right| = -\frac{kA}{L} \Delta T = \frac{1}{R_{cond}} \Delta T$, where $R_{cond} = \frac{L}{kA}$.
+        
+        For \fsheetlabel{heat transfer through the walls of a cylinder} (e.g. pipe), $A$ is not constant w.r.t. $r$, and $\left|\dot{Q}_{cond}\right| = \frac{1}{R_{cond}} \Delta T$ where $R_{cond} = \frac{\ln\left(r_{outer}/r_{inner}\right)}{2 \pi L k}$, with $L$ being the length of the pipe.
+        
+        \fsheetlabel{Equivalent resistances:}\\*
+        Series: $R_{eff}=R_1+R_2$; Parallel: $\frac{1}{R_{eff}} = \frac{1}{R_1} + \frac{1}{R_2}.$
+        
+        \fsheetlabel{Convective resistance:} $R_{conv} = \frac{1}{hA}$
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Important unit conversions}
+        
+        \fsheetlabel{Energy, work:}
+        
+        $1\,\text{Btu} = 778.169\,\text{ft}\cdot\text{lbf}$
+        
+        \fsheetlabel{Temperature:}
+        
+        $T(\degree\text{F}) = \frac{9}{5} T(\degree\text{C}) + 32$
+        
+        $T(\degree\text{C}) = \frac{5}{9}(T(\degree\text{T}) - 32)$
+        
+        $T(\text{K}) = T(\degree\text{C}) + 273.15$
+        
+        $T(\text{R}) = T(\degree\text{F}) + 459.67$
+        
+        $T(\text{R}) = \frac{9}{5} T(\text{K})$
+        
+        \fsheetlabel{Volume:}
+        
+        $1\,\text{m}^3 = 1000\,\text{L}$
+        
+        $1\,\text{cm}^3 = 1\,\text{mL}$
+        
+        \fsheetlabel{Mass, force:}
+        
+        $1 \,\text{lbm} = \frac{1}{32.174} \,\text{slug} = \frac{1 \,\text{lbf}}{32.174 \,\frac{\text{ft}}{\text{s}^2}}$
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Important constants}
+        
+        \fsheetlabel{Universal Gas Constant:}
+        
+        \vspace{-0.5cm}
+        \begin{align*}
+            \bar{R} &= 8.31434 \,\text{J} / (\text{mol} \cdot \text{K}) \\
+                    &= 1.9858 \,\text{Btu} / (\text{lbmol} \cdot \text{R}) \\
+                    &= 1545.35 \,\text{ft} \cdot \text{lbf} / (\text{lbmol} \cdot \text{R}) \\
+                    &= 10.73 \,\text{psia} \cdot \text{ft}^3 / (\text{lbmol} \cdot \text{R})
+        \end{align*}
+        \vspace{-0.5cm}
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Random notes}
+        
+        \fsheetlabel{3 (+ 1?) types of piston problems:}
+        
+        \begin{enumerate}
+            \item \textbf{Isothermal}: $T$ is constant, $p$ varies. So replace $p$ with something like $\frac{p_1 V_1}{V}$ in your $W_B$ integral.
+            \item \textbf{Isobaric}: $T$ varies, $p$ is constant.
+            \item \textbf{Nothing constant, but adiabatic}: Remeber that $pV^n = constant$, where $n$ is given to you. Should be able to derive something like $W = \frac{m c_v}{R}(p_1 V_1 - p_2 V_2)$.
+            \item \textbf{Isotropic}: Same as Isothermal, but replace $p$ with something like $\frac{p_1 V_1^n}{V^n}$ instead.
+        \end{enumerate}
+    
+        \fsheetlabel{Be calm. Take your time. If you get stuck for more than ten seconds, move on and come back to it. Enjoy! 😁}
+    \end{minipage}
+    %--------------------------------------
+    
+    % You can even have references
+    % \rule{0.3\linewidth}{0.25pt}
+    % \scriptsize
+    % \bibliographystyle{abstract}
+    % \bibliography{refFile}
+    \end{multicols*}
+\end{document}
