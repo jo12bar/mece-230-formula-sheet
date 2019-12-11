@@ -1,3 +1,7 @@
+% !TeX program = xelatex
+% !TeX spellcheck = en_CA
+% !TeX encoding = utf8
+
 \documentclass[10pt,landscape,letterpaper]{article}
 
 %
@@ -12,7 +16,7 @@
 \usepackage{ifthen}
 \usepackage[landscape,letterpaper]{geometry}
 \usepackage{titlesec}
-\usepackage{amsmath,amsthm,amsfonts,amssymb,gensymb}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,gensymb,nicefrac}
 \usepackage{graphicx,overpic,wrapfig}
 \usepackage[dvipsnames]{xcolor}
 
@@ -23,8 +27,25 @@
             pdftitle={Mec E 230 Formula Sheet},
             pdfsubject={Mec E 230},
             pdfkeywords={LaTeX, XeLaTeX, Mec E 230, Formula Sheet},
-            pdfproducer={XeLaTeX with hyperref}
+            pdfproducer={XeLaTeX with hyperref},
             pdfcreator={XeLaTeX}]{hyperref}
+            
+\usepackage{siunitx}
+\sisetup{inter-unit-product=\ensuremath{{}\cdot{}}}
+\sisetup{per-mode=fraction}
+
+% We need some custom, non-SI units so we'll declare those here:
+\DeclareSIUnit{\slug}{slug}
+\DeclareSIUnit{\pounds}{lb}
+\DeclareSIUnit{\poundsforce}{\pounds f}
+\DeclareSIUnit{\poundsmass}{\pounds m}
+\DeclareSIUnit{\poundsmole}{\pounds mol}
+\DeclareSIUnit{\britishthermal}{Btu}
+\DeclareSIUnit{\rankine}{R}
+\DeclareSIUnit{\feet}{ft}
+\DeclareSIUnit{\PressurePerSquareInch}{psi}
+\DeclareSIUnit{\AbsPressurePerSquareInch}{\PressurePerSquareInch a}
+\DeclareSIUnit{\degreeFahrenheit}{\degree F}
 
 \graphicspath{{./}}
 
@@ -70,7 +91,7 @@
   T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 % Define shortcut for formatting equation labels:
-\definecolor{FSheetLabelColor}{RGB}{36, 135, 189}
+\definecolor{FSheetLabelColor}{RGB}{245, 82, 73}
 \newcommand{\fsheetlabel}[1]{\textcolor{FSheetLabelColor}{\textbf{\textit{#1}}}}
 
 % Don't print section numbers
@@ -232,9 +253,9 @@
             
             \item \textbf{Bingham plastic}: $\tau_0 \neq 0$, $n = 1$; Requires some force to start flow, e.g. ketchup, toothpaste.
             
-            \item \textbf{Shear-thinning}: $\tau_0 = 0$, $n > 1$; Can accelerate without effort when shear reaches critical value, e.g. blood.
+            \item \textbf{Shear-thinning}: $\tau_0 = 0$, $n < 1$; Can accelerate without effort when shear reaches critical value, e.g. blood.
             
-            \item \textbf{Shear-thickening}: $\tau_0 = 0$, $n < 1$; Liquid under slow \& steady force, solid under sudden force, e.g. cornstarch in water.
+            \item \textbf{Shear-thickening}: $\tau_0 = 0$, $n > 1$; Liquid under slow \& steady force, solid under sudden force, e.g. cornstarch in water.
         \end{itemize}
     
         \fsheetlabel{Density:} $\rho=\frac{m}{V}$. \fsheetlabel{Specific volume:} $\nu=\frac{1}{\rho}$. 
@@ -246,7 +267,7 @@
     
     %--------------------------------------
     \begin{minipage}{\columnwidth}\raggedright
-        \subsection{Static pressure}
+        \subsection{Fluid statics}
         
         \fsheetlabel{Pascal's Law:} All points in a resting fluid medium are at the same pressure if they're at the same depth.
         
@@ -264,6 +285,17 @@
         Force is located at $y_Q = y_C + \frac{I_{xx,C}}{\frac{p_0 A}{\rho g \sin{\theta}} + y_C A}$
         
         For a rectangle with size $a$ in $x$-dir and $b$ in $y$-dir, $y_C = b/2$ and $I_{xx,C} = a b^3 / 12$.
+        
+        \fsheetlabel{Submerged curved body:}
+        
+        \begin{itemize}
+            \item \textbf{Rule 1:} Horizontal force component is force on plane area formed by projecting curved surface onto vertical plane (\textit{e.g. use flat angled body above with $ \theta = \ang{0} $}).
+            \item \textbf{Rule 2:} Vertical force component is weight of entire column of fluid above curved area (location can be found by doing FBD with weight of each piece @ respective centroids).
+        \end{itemize}
+    
+        \fsheetlabel{Buoyancy:} Weight of the fluid displaced by an object directed upwards through centre of \textit{submerged} mass (e.g. $ F_B = \rho_f V g $). \textbf{Note:} If $ \rho_{f1} \gg \rho_{f2} $ (e.g. if $\rho_{f1}$ is for air, $\rho_{f2}$ is for water) then $ F_B = \left(\rho_{f1}V_1 + \rho_{f2}V_2\right)g \approx \rho_{f2}V_2g$.
+        
+        \fsheetlabel{Drag force @ terminal (settling) velocity:} $ F_D = \left( \rho_s - \rho_f \right) V g $ (you can solve for $ \rho_s $ if you have an expression for $ F_D $ already).
     \end{minipage}
     \vspace{2ex plus .5ex minus .5ex}
     %--------------------------------------
@@ -272,7 +304,7 @@
     \begin{minipage}{\columnwidth}\raggedright
         \subsection{Surface tension}
         
-        \fsheetlabel{Energy to create interface:} $\delta W = \gamma \,dA$ where $\gamma$ is surface tension $\left[\text{J}/\text{m}^2\text{ or }\text{N}/\text{m}\right]$.
+        \fsheetlabel{Energy to create interface:} $\delta W = \gamma \,dA$ where $\gamma$ is surface tension $\left[ \si{\joule\per\square\metre} \text{ or } \si{\newton\per\metre} \right]$.
         
         \fsheetlabel{Droplets on surfaces:} \textbf{hydrophilic} if $\theta < 90\degree$, \textbf{hydrophobic} if $\theta > 90\degree$.
         
@@ -282,8 +314,115 @@
         
         \fsheetlabel{Young-Laplace equation (capillary):} $p_{g} - p_{l} = \frac{2\gamma\cos{\left(\theta\right)}}{r}$, where $r$ is radius of capillary.
         
-        $p_g - p_l > 0$ $\Rightarrow$ $\theta < 90\degree$ $\Rightarrow$ CDN meniscus above water level.
-        $p_g - p_l < 0$ $\Rightarrow$ $\theta > 90\degree$ $\Rightarrow$ CUP meniscus below water level.
+        $p_g - p_l > 0$ $\Rightarrow$ $\theta < \ang{90}$ $\Rightarrow$ CDN meniscus above water level.
+        $p_g - p_l < 0$ $\Rightarrow$ $\theta > \ang{90}$ $\Rightarrow$ CUP meniscus below water level.
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{That droplet question you missed earlier}
+        
+        Gosh dang-it man...
+        
+        \textbf{\textit{REMEMBER:}}
+        
+        \begin{Figure}
+            \includegraphics[width=\textwidth]{droplet_question}
+            \centering
+        \end{Figure}
+    
+        Gonna put this here again so you don't screw up again...
+        
+        \fsheetlabel{Energy to create interface:} $\delta W = \gamma \,dA$ where $\gamma$ is surface tension $\left[ \si{\joule\per\square\metre} \text{ or } \si{\newton\per\metre} \right]$.
+        
+        \fsheetlabel{Droplets on surfaces:} \textbf{hydrophilic} if $\theta < 90\degree$, \textbf{hydrophobic} if $\theta > 90\degree$.
+        
+        \fsheetlabel{Spreading coefficient:} $S = \gamma_{SG} - \left(\gamma_{SL} + \gamma_{LG}\right)$. $S>0$ $\Rightarrow$ film forms $\Rightarrow$ complete wetting. $S<0$ $\Rightarrow$ partial wetting $\Rightarrow$ drops.
+        
+        \fsheetlabel{Young-Laplace equation (droplet/bubble):} $p_{in} - p_{out} = 2\frac{\gamma}{R}$ where $R$ is radius of curvature.
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Fluid Dynamics}
+        
+        \fsheetlabel{Mass conservation:} For a fixed CV, $ \frac{d{m}_{CV}}{dt} = \dot{m}_{in} - \dot{m}_{out} $ where $ \dot{m} = \rho \dot{V} = \rho v_{avg} A $
+        
+        \fsheetlabel{Linear momentum conservation:} For a fixed CV, $ \Sigma F_x = \frac{dB_x}{dt} = \frac{dB_{x,CV}}{dt} + \dot{m}_{out} v_{x,out} - \dot{m}_{in} v_{x,in} $, where $ \Sigma F_x $ includes \textit{all} external body and surface forces, i.e. weight, pressure (gauge in most cases), viscous and reaction forces.
+        
+        \fsheetlabel{Specific enthalpy:} $ h = u + \frac{p}{\rho} $
+        
+        For solid, liquids, and ideal gases with constant $c_p$, $ h_2 - h_1 = c_p \left( T_2 - T_1 \right) $.
+        
+        \fsheetlabel{Energy conservation:} For a fixed CV, $ \frac{dE_{CV}}{dt} = \dot{Q}_{CV} - \dot{W}_{CV} + \dot{m}_i \left( h_i + \frac{v_i^2}{2} + g z_i \right) - \dot{m}_o \left( h_o + \frac{v_o^2}{2} + g z_o \right)$
+        
+        \fsheetlabel{Easy Bernoulli:} For \textbf{adiabatic}, \textbf{isothermal}, \textbf{incompressible}, \textbf{inviscid} fluids, and a fixed CV with one inlet and one outlet, $ \frac{p_i}{\rho} + \frac{v_i^2}{2} + g z_i = \frac{p_e}{\rho} + \frac{v_e^2}{2} + g z_e = \mathrm{constant} = H$ (\textbf{total head}).
+        
+        \fsheetlabel{Stagnation point:} Where the fluid's velocity is 0. If you see one, you should probably use Bernoulli somewhere.
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{When we actually care about viscosity}
+        
+        Everything below is for circular pipes.
+        
+        \fsheetlabel{Reynolds Number:} Determines stability of flow. Defined as $ Re = \frac{\rho v L}{\mu} = \frac{\rho v_{avg} D}{\mu} = \frac{\mathrm{inertial \,forces}}{\mathrm{viscous \,forces}} $, where $ \rho $ is fluid's density, $ V = v_{avg} $ is characteristic (or average) velocity, $ L = D $ is characteristic length (or diameter), and $ \mu $ is kinematic viscosity.
+        
+        \fsheetlabel{Laminar Flow:}
+        
+        \begin{itemize}
+            \item All particles move parallel.
+            \item $ Re \leq 2100 $
+            \item \fsheetlabel{Friction factor:} $f = \frac{64}{Re}$
+            \item Velocity distribution inside pipe: $ v(r) = \frac{R^2}{4\mu} \left( \frac{\Delta p}{L} - \rho g \sin{\theta} \right) \left( 1 - \left( \frac{r}{R} \right)^2 \right)$.
+            \item Velocity distribution inside \textit{horizontal} pipe: $ v(r=0) = v_{max} = \frac{R^2}{4\mu} \frac{\Delta p}{L} = 2v_{avg} $.
+        \end{itemize}
+    
+        \fsheetlabel{Turbulent flow:}
+        
+        \begin{itemize}
+            \item Freaking weird particle movement.
+            \item Colebrook eq. (\textbf{unsolvable!}): $ \frac{1}{\sqrt{f}} = -2.0 \log{\left( \frac{\nicefrac{\varepsilon}{D}}{3.7} + \frac{2.51}{Re \sqrt{f}} \right)} $
+            \item Within 2\% of Colebrook: $ \frac{1}{\sqrt{f}} \approx -1.8 \left( \left( \frac{\nicefrac{\varepsilon}{D}}{3.7} \right)^{1.11} + \frac{6.9}{Re} \right) $
+        \end{itemize}
+    
+        \fsheetlabel{Steps for using the Moody Chart:}
+        
+        \begin{enumerate}
+            \item Compute $Re$
+            \item Compute $ \nicefrac{\varepsilon}{D} $ (both in metres!)
+            \item Pick line on chart
+        \end{enumerate}
+    
+        \fsheetlabel{Darcy-Weisbach formula:} $ \Delta p = f \cdot \frac{L}{D} \cdot \frac{1}{2} \rho v_{avg}^2 $
+        
+        \fsheetlabel{Hydrodynamic diameter:} $ D_h = \frac{4A_c}{P_{wetted}} $. Then, $ Re_{D_h} = \frac{\rho v_{avg} D_h}{\mu} $ and $ \Delta P = f \cdot \frac{L}{D_h} \cdot \frac{1}{2} \rho v_{avg}^2 $
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Bernoulli with viscosity effects}
+        
+        For an incompressible viscous fluid, and a CV with one inlet and one outlet,
+        
+        $$ \frac{p_1}{\rho g} + \frac{v_1^2}{2g} + z_1 + h_p = \frac{p_2}{\rho g} + \frac{v_2^2}{2g} + z_2 + h_T + \sum h_L $$
+        
+        where $ h = \frac{\Delta p}{\rho g} $ is some sort of head. Specifically:
+        
+        \fsheetlabel{Pump head:} $ h_P = \frac{\Delta p}{\rho g} = \frac{\dot{W}_P}{\dot{m}g} $
+        
+        \fsheetlabel{Turbine head:} $ h_T = \frac{\Delta p}{\rho g} = \frac{\dot{W}_T}{\dot{m}g} $
+        
+        \fsheetlabel{Head losses:} $ \sum h_L = \sum f \frac{L}{D} \frac{v^2}{2g} $
     \end{minipage}
     \vspace{2ex plus .5ex minus .5ex}
     %--------------------------------------
@@ -294,29 +433,29 @@
         
         \fsheetlabel{Energy, work:}
         
-        $1\,\text{Btu} = 778.169\,\text{ft}\cdot\text{lbf}$
+        $\SI{1}{\britishthermal} = \SI{778.169}{\feet\poundsforce}$
         
         \fsheetlabel{Temperature:}
         
-        $T(\degree\text{F}) = \frac{9}{5} T(\degree\text{C}) + 32$
+        $T(\si{\degreeFahrenheit}) = \frac{9}{5} T(\si{\degreeCelsius}) + 32$
         
-        $T(\degree\text{C}) = \frac{5}{9}(T(\degree\text{T}) - 32)$
+        $T(\si{\degreeCelsius}) = \frac{5}{9}(T(\si{\degreeFahrenheit}) - 32)$
         
-        $T(\text{K}) = T(\degree\text{C}) + 273.15$
+        $T(\si{\kelvin}) = T(\si{\degreeCelsius}) + 273.15$
         
-        $T(\text{R}) = T(\degree\text{F}) + 459.67$
+        $T(\si{\rankine}) = T(\si{\degreeFahrenheit}) + 459.67$
         
-        $T(\text{R}) = \frac{9}{5} T(\text{K})$
+        $T(\si{\rankine}) = \frac{9}{5} T(\si{\kelvin})$
         
         \fsheetlabel{Volume:}
         
-        $1\,\text{m}^3 = 1000\,\text{L}$
+        $\SI{1}{\cubic\metre} = \SI{1000}{\liter}$
         
-        $1\,\text{cm}^3 = 1\,\text{mL}$
+        $\SI{1}{\cubic\centi\metre} = \SI{1}{\milli\liter}$
         
         \fsheetlabel{Mass, force:}
         
-        $1 \,\text{lbm} = \frac{1}{32.174} \,\text{slug} = \frac{1 \,\text{lbf}}{32.174 \,\frac{\text{ft}}{\text{s}^2}}$
+        $\SI{1}{\poundsmass} = \frac{1}{\num{32.174}}\si{\slug} = \frac{\SI{1}{\poundsforce}}{\SI{32.174}{\feet\per\second\squared}}$
     \end{minipage}
     \vspace{2ex plus .5ex minus .5ex}
     %--------------------------------------
@@ -329,14 +468,25 @@
         
         \vspace{-0.5cm}
         \begin{align*}
-            \bar{R} &= 8.31434 \,\text{J} / (\text{mol} \cdot \text{K}) \\
-                    &= 1.9858 \,\text{Btu} / (\text{lbmol} \cdot \text{R}) \\
-                    &= 1545.35 \,\text{ft} \cdot \text{lbf} / (\text{lbmol} \cdot \text{R}) \\
-                    &= 10.73 \,\text{psia} \cdot \text{ft}^3 / (\text{lbmol} \cdot \text{R})
+            \bar{R} &= \SI{8.31434}{\joule\per\mole\per\kelvin} \\
+                    &= \SI{1.9858}{\britishthermal\per\poundsmole\per\rankine} \\
+                    &= \SI{1545.35}{\feet\poundsforce\per\poundsmole\per\rankine} \\
+                    &= \SI{10.73}{\AbsPressurePerSquareInch\feet\cubed\per\poundsmole\per\rankine}
         \end{align*}
         \vspace{-0.5cm}
         
-        \fsheetlabel{Water density at $4\degree\text{C}$:} $\rho_{H_2 O, 4\degree C} = 1000 \,\text{kg}/\text{m}^3$
+        \fsheetlabel{Water density at $\SI{4}{\celsius}$:} $\rho_{H_2 O, \SI{4}{\celsius}} = \SI{1000}{\kilogram\per\cubic\metre}$
+    \end{minipage}
+    \vspace{2ex plus .5ex minus .5ex}
+    %--------------------------------------
+    
+    %--------------------------------------
+    \begin{minipage}{\columnwidth}\raggedright
+        \subsection{Important equations I constantly forget}
+        
+        \fsheetlabel{Spheres:} $ V = \frac{4}{3} \pi r^3 $, $ A = 4\pi r^2 $.
+        
+        \fsheetlabel{Cylinders:} $ V = \pi r^2 h $, $ A = 2\pi r h + 2\pi r^2 $.
     \end{minipage}
     \vspace{2ex plus .5ex minus .5ex}
     %--------------------------------------
